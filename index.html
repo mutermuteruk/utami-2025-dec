@@ -264,6 +264,85 @@
     .suggestion-item strong { display: block; margin-bottom: 4px; }
     .suggestion-item strong a { color: white; text-decoration: none; }
     .suggestion-item strong a:hover { text-decoration: underline; }
+
+    /* Mobile optimizations */
+    @media (max-width: 480px) {
+      .slide-content {
+        padding: 50px 16px 16px 16px;
+      }
+
+      .info-card {
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+
+      .info-card h3 {
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+
+      .info-card p {
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .timeline-item {
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .travel-time {
+        margin-left: 65px;
+        margin-bottom: 6px;
+      }
+
+      .hotel-times {
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .hotel-time {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      .day-badge {
+        padding: 5px 12px;
+        font-size: 11px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin-bottom: 6px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 360px) {
+      .slide-content {
+        padding: 45px 14px 14px 14px;
+      }
+
+      .suggestion-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .time {
+        min-width: 50px;
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+
+      .travel-time {
+        margin-left: 60px;
+      }
+    }
   </style>
 </head>
 <body>
