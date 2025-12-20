@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>London Adventure 2025</title>
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a1628;
+      color: white;
+      overflow: hidden;
+    }
+    
+    .swiper { width: 100%; height: 100vh; height: 100dvh; }
+    
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slide-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+    }
+    
+    .slide-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 22, 40, 0.3) 0%,
+        rgba(10, 22, 40, 0.5) 40%,
+        rgba(10, 22, 40, 0.95) 75%,
+        rgba(10, 22, 40, 1) 100%
+      );
+    }
+    
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      margin-top: auto;
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+    
+    .day-badge {
+      display: inline-block;
+      background: #CC0000;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    
+    .day-badge.blue { background: #003087; }
+    .day-badge.gold { background: #b8860b; }
+    .day-badge.green { background: #228b22; }
+    .day-badge.purple { background: #6a0dad; }
+    
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(24px, 6vw, 36px);
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    
+    .subtitle { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    
+    .hotel-times {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    
+    .hotel-time {
+      background: rgba(0, 48, 135, 0.4);
+      border: 1px solid rgba(0, 48, 135, 0.6);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .hotel-time.return {
+      background: rgba(40, 167, 69, 0.3);
+      border-color: rgba(40, 167, 69, 0.5);
+    }
+    
+    .info-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .info-card.highlight {
+      background: rgba(204, 0, 0, 0.3);
+      border-color: rgba(204, 0, 0, 0.5);
+    }
+    
+    .info-card.success {
+      background: rgba(40, 167, 69, 0.2);
+      border-color: rgba(40, 167, 69, 0.4);
+    }
+    
+    .info-card.warning {
+      background: rgba(255, 193, 7, 0.2);
+      border-color: rgba(255, 193, 7, 0.4);
+    }
+    
+    .info-card.purple {
+      background: rgba(106, 13, 173, 0.25);
+      border-color: rgba(106, 13, 173, 0.5);
+    }
+    
+    .info-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-card p { font-size: 13px; line-height: 1.5; opacity: 0.9; }
+    
+    .info-card a, .timeline-content a, .suggestion-item a {
+      color: #7dd3fc;
+      text-decoration: none;
+    }
+    
+    .info-card a:hover, .timeline-content a:hover, .suggestion-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+    
+    .time {
+      background: #003087;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 55px;
+      text-align: center;
+    }
+    
+    .time.red { background: #CC0000; }
+    
+    .timeline-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .timeline-content h4 a { color: white; text-decoration: none; }
+    .timeline-content h4 a:hover { text-decoration: underline; }
+    .timeline-content p { font-size: 12px; opacity: 0.7; }
+    
+    .travel-time {
+      font-size: 11px;
+      color: #ffc107;
+      margin-left: 67px;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    
+    .cost { color: #ffc107; font-weight: 600; }
+    
+    .title-slide .slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 0;
+      height: 100%;
+      max-height: none;
+    }
+    
+    .title-slide h1 { font-size: clamp(36px, 10vw, 56px); margin-bottom: 16px; }
+    
+    .flag { font-size: 48px; margin-bottom: 20px; }
+    
+    .divider {
+      width: 80px; height: 4px;
+      background: #CC0000;
+      margin: 16px auto;
+      border-radius: 2px;
+    }
+    
+    .swiper-pagination { bottom: 20px !important; }
+    .swiper-pagination-bullet { background: white; opacity: 0.4; width: 8px; height: 8px; }
+    .swiper-pagination-bullet-active { opacity: 1; background: #CC0000; }
+    
+    .swipe-hint {
+      position: absolute;
+      bottom: 50px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px; opacity: 0.6;
+      display: flex; align-items: center; gap: 8px;
+      z-index: 10;
+    }
+    
+    .swipe-hint svg { animation: swipe 1.5s ease-in-out infinite; }
+    
+    @keyframes swipe {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+    }
+    
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    
+    .suggestion-item {
+      background: rgba(255,255,255,0.08);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    
+    .suggestion-item strong { display: block; margin-bottom: 4px; }
+    .suggestion-item strong a { color: white; text-decoration: none; }
+    .suggestion-item strong a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+    
+    <!-- Slide 1: Title - London Skyline -->
+    <div class="swiper-slide title-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <div class="flag">🇬🇧</div>
+        <h1>London Adventure</h1>
+        <div class="divider"></div>
+        <p class="subtitle">24 Desember 2025 - 1 Januari 2026</p>
+        <p style="font-size: 13px; opacity: 0.7; margin-top: 8px;">Panduan Perjalanan Singkat</p>
+        <p style="font-size: 11px; opacity: 0.5; margin-top: 12px; max-width: 280px;">⚠️ Panduan ini hanya sebagai acuan awal dan dapat berubah sewaktu-waktu.</p>
+        <div class="swipe-hint">
+          <span>Geser untuk mulai</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 2: Overview - Westminster -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Ringkasan</span>
+        <h2>9 Hari Petualangan</h2>
+        <p class="subtitle">21+ Lokasi Ikonik London</p>
+        
+        <div class="info-card">
+          <h3>🏨 Hotel</h3>
+          <p><strong><a href="https://www.ihg.com/staybridge/hotels/gb/en/hayes/lhrha/hoteldetail" target="_blank">Staybridge Suites</a></strong><br>Heathrow Bath Road<br>Hanya 5 menit dari bandara!</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Gratis</h3>
+          <p><a href="https://www.britishmuseum.org/" target="_blank">British Museum</a>, <a href="https://www.nationalgallery.org.uk/" target="_blank">National Gallery</a>, <a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a>, <a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a>, <a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a></p>
+        </div>
+        
+        <div class="info-card">
+          <h3>📱 App Wajib Download</h3>
+          <p><strong><a href="https://citymapper.com/" target="_blank">Citymapper</a></strong> - Navigasi transport London terbaik!<br><a href="https://www.uber.com/" target="_blank">Uber</a> - Transportasi on-demand</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 3: Day 1 - Windsor Castle -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1574877569028-2e79ef769092?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Hari 1</span>
+        <h2>Rabu, 24 Des</h2>
+        <p class="subtitle">Kedatangan - Windsor Castle, Central London Drive</p>
+        
+        <div class="timeline-item">
+          <span class="time">07:10</span>
+          <div class="timeline-content">
+            <h4>Tiba di Heathrow</h4>
+            <p>Hotel hanya 5 menit!</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">08:00</span>
+          <div class="timeline-content">
+            <h4>Hotel Check-in & Istirahat</h4>
+            <p>Pemulihan jet lag</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">13:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.rct.uk/visit/windsor-castle" target="_blank">Windsor Castle 🏰</a></h4>
+            <p>Kastil kerajaan tertua</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 20 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time">16:00</span>
+          <div class="timeline-content">
+            <h4>Drive Through Central London</h4>
+            <p><a href="https://www.rct.uk/visit/buckingham-palace" target="_blank">Buckingham Palace</a>, landmarks</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 45 menit ke pusat kota</div>
+        
+        <div class="timeline-item">
+          <span class="time">~18:00</span>
+          <div class="timeline-content">
+            <h4>Kembali ke Hotel</h4>
+            <p>Istirahat awal untuk jet lag</p>
+          </div>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>⚠️ Perhatian Check-in</h3>
+          <p>Check-in standar jam 15:00. Request early check-in ke hotel, mungkin ada biaya tambahan.<br>Sarapan hari pertama mungkin perlu bayar terpisah.</p>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking</h3>
+          <p><a href="https://www.rct.uk/visit/windsor-castle" target="_blank" style="color: white;">Windsor Castle</a> - tutup ~16:00 di winter</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 4: Day 2 - Christmas Day South Bank -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Hari 2</span>
+        <h2>Kamis, 25 Des 🎄</h2>
+        <p class="subtitle">Hari Natal - South Bank, Tower Bridge, Chinatown</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 09:00</div>
+          <div class="hotel-time return">🏨 Kembali: ~17:00</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:00</span>
+          <div class="timeline-content">
+            <h4>South Bank Walk</h4>
+            <p>Jalan santai tepi Thames</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 45-50 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time red">10:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.towerbridge.org.uk/" target="_blank">Tower Bridge 📸</a></h4>
+            <p>Foto ikonik jembatan</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">11:00</span>
+          <div class="timeline-content">
+            <h4>Millennium Bridge + St Paul's</h4>
+            <p>Jembatan Harry Potter, view <a href="https://www.stpauls.co.uk/" target="_blank">katedral</a></p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 20 menit jalan kaki</div>
+        
+        <div class="timeline-item">
+          <span class="time red">11:30</span>
+          <div class="timeline-content">
+            <h4>Westminster Bridge & Big Ben</h4>
+            <p>Foto dengan Parliament</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 15 menit berkendara</div>
+        
+        <div class="timeline-item">
+          <span class="time">13:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://chinatown.co.uk/" target="_blank">Chinatown</a> Lunch</h4>
+            <p>Area yang BUKA hari Natal!</p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 15 menit jalan kaki</div>
+        
+        <div class="timeline-item">
+          <span class="time red">14:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.regentstreetonline.com/" target="_blank">Winter Lights Regent Street</a> ✨</h4>
+            <p>Lampu Natal spektakuler</p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 5 menit jalan kaki</div>
+        
+        <div class="info-card highlight">
+          <h3>🚫 Tutup Hari Ini</h3>
+          <p>Hampir semua atraksi & toko<br>TIDAK ADA transportasi umum</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Buka</h3>
+          <p>Restoran Chinatown | Parkir GRATIS</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 5: Day 3 - Boxing Day Covent Garden -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1513346940221-6f673d962e97?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Hari 3</span>
+        <h2>Jumat, 26 Des 🛍️</h2>
+        <p class="subtitle">Boxing Day - Covent Garden, Oxford Street, Musical</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 08:15</div>
+          <div class="hotel-time return">🏨 Kembali: ~23:00</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">09:15</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a></h4>
+            <p>Pasar & pertunjukan jalanan</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 50 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time">12:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.oxfordstreet.co.uk/" target="_blank">Oxford Street</a> Boxing Day Sales</h4>
+            <p>Diskon besar-besaran! + makan siang</p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 15 menit jalan kaki</div>
+        
+        <div class="timeline-item">
+          <span class="time">17:00</span>
+          <div class="timeline-content">
+            <h4>Early Dinner</h4>
+            <p>Dekat West End</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">19:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.officiallondontheatre.com/" target="_blank">West End Musical 🎭</a></h4>
+            <p>Pertunjukan teater <span class="cost">~£250</span></p>
+          </div>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking SEGERA!</h3>
+          <p><a href="https://www.officiallondontheatre.com/" target="_blank" style="color: white;">West End Musical</a> - tiket cepat habis!</p>
+        </div>
+        
+        <div class="info-card warning">
+          <p>⚠️ Boxing Day = crowds! Datang pagi untuk best deals</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 6: Day 4 - Borough Market & Tower of London (SATURDAY) -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Hari 4</span>
+        <h2>Sabtu, 27 Des</h2>
+        <p class="subtitle">Borough Market, Tower of London, Notting Hill, London Eye</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 07:30</div>
+          <div class="hotel-time return">🏨 Kembali: ~19:30</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">08:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a></h4>
+            <p>Pasar makanan terbaik London!</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 55 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time red">10:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.hrp.org.uk/tower-of-london/" target="_blank">Tower of London</a></h4>
+            <p>Crown Jewels <span class="cost">~£192</span></p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 10 menit jalan kaki</div>
+        
+        <div class="timeline-item">
+          <span class="time">14:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.portobelloroad.co.uk/" target="_blank">Notting Hill & Portobello</a></h4>
+            <p>Pasar antik - SABTU terbaik!</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 35 menit berkendara</div>
+        
+        <div class="timeline-item">
+          <span class="time red">17:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.londoneye.com/" target="_blank">London Eye 🎡</a></h4>
+            <p>Pemandangan malam <span class="cost">~£210</span></p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 25 menit berkendara</div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking</h3>
+          <p><a href="https://www.hrp.org.uk/tower-of-london/" target="_blank" style="color: white;">Tower of London</a> 10:30<br><a href="https://www.londoneye.com/" target="_blank" style="color: white;">London Eye</a> 17:00</p>
+        </div>
+        
+        <div class="info-card success">
+          <p>💡 Borough + Tower dalam satu area - efisien!</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 7: Day 5 - Skiing (SUNDAY) -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1551524559-8af4e6624178?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Hari 5</span>
+        <h2>Minggu, 28 Des ⛷️</h2>
+        <p class="subtitle">The Snow Centre + St Albans</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 09:00</div>
+          <div class="hotel-time return">🏨 Kembali: ~18:00</div>
+        </div>
+        
+        <div class="info-card" style="background: linear-gradient(135deg, rgba(135,206,235,0.3), rgba(74,144,217,0.3));">
+          <h3>🏔️ <a href="https://www.thesnowcentre.com/" target="_blank" style="color: white;">The Snow Centre</a></h3>
+          <p><strong>Hemel Hempstead</strong><br>Arena ski indoor dengan salju asli!</p>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:00</span>
+          <div class="timeline-content">
+            <h4>Tiba & Check-in</h4>
+            <p>Ambil peralatan ski</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 40 menit dari hotel via M25</div>
+        
+        <div class="timeline-item">
+          <span class="time red">11:00</span>
+          <div class="timeline-content">
+            <h4>Pelajaran Ski 2 Jam</h4>
+            <p>5 orang <span class="cost">~£295</span></p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">14:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.stalbanscathedral.org/" target="_blank">St Albans Cathedral</a></h4>
+            <p>Kota bersejarah Romawi - GRATIS</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 20 menit dari Snow Centre</div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking Ski!</h3>
+          <p>Liburan sekolah - cepat penuh<br><a href="https://www.thesnowcentre.com/" target="_blank" style="color: white;">thesnowcentre.com</a></p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Disediakan</h3>
+          <p>Ski, boots, poles, jaket | Parkir GRATIS</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 8: Day 6 - Hyde Park Winter Wonderland -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Hari 6</span>
+        <h2>Senin, 29 Des</h2>
+        <p class="subtitle">Hyde Park, Winter Wonderland, Harrods</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 09:00</div>
+          <div class="hotel-time return">🏨 Kembali: ~20:00</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a></h4>
+            <p>Jalan pagi di taman kerajaan</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 30 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time red">12:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://hydeparkwinterwonderland.com/" target="_blank">Winter Wonderland 🎄</a></h4>
+            <p>Festival Natal terbesar! <span class="cost">~£145</span></p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 Di dalam Hyde Park</div>
+        
+        <div class="timeline-item">
+          <span class="time">17:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.harrods.com/" target="_blank">Harrods</a></h4>
+            <p>Department store termewah</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 10 menit berkendara</div>
+        
+        <div class="info-card">
+          <h3>📍 Lokasi Strategis</h3>
+          <p>Semua lokasi dekat hotel (25-35 menit)<br>Parkir tersedia di Hyde Park</p>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking</h3>
+          <p><a href="https://hydeparkwinterwonderland.com/" target="_blank" style="color: white;">Winter Wonderland</a> 12:00</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 9: Day 7 - Buckingham Palace -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1520986606214-8b456906c813?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Hari 7</span>
+        <h2>Selasa, 30 Des</h2>
+        <p class="subtitle">Mandiri dengan Uber - Buckingham, Museum</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚕 Uber Berangkat: 09:30</div>
+          <div class="hotel-time return">🏨 Kembali: ~18:00</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:15</span>
+          <div class="timeline-content">
+            <h4>Tiba di <a href="https://www.rct.uk/visit/buckingham-palace" target="_blank">Buckingham Palace</a></h4>
+            <p>Uber XL <span class="cost">~£45-55</span></p>
+          </div>
+        </div>
+        <div class="travel-time">🚕 40 menit dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time red">11:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://changing-guard.com/dates-buckingham-palace.html" target="_blank">Changing of the Guard 💂</a></h4>
+            <p>Upacara pergantian penjaga - GRATIS</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">12:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.nationalgallery.org.uk/" target="_blank">National Gallery</a></h4>
+            <p>Koleksi seni klasik - GRATIS</p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 15 menit jalan kaki</div>
+        
+        <div class="timeline-item">
+          <span class="time">15:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.britishmuseum.org/" target="_blank">British Museum</a></h4>
+            <p>Museum terbaik dunia - GRATIS</p>
+          </div>
+        </div>
+        <div class="travel-time">🚶 25 menit atau Uber</div>
+        
+        <div class="info-card warning">
+          <h3>📱 Tips Penting</h3>
+          <p>Download <strong><a href="https://citymapper.com/" target="_blank">Citymapper</a></strong> untuk navigasi<br>Pesan <a href="https://www.uber.com/" target="_blank">Uber</a> XL (6 kursi)<br>Total Uber: <span class="cost">~£100-130</span></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 10: Day 8 - NYE London Fireworks -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge gold">Hari 8</span>
+        <h2>Rabu, 31 Des 🎆</h2>
+        <p class="subtitle">Malam Tahun Baru - Mandiri dengan Uber</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚕 Uber Berangkat: 10:00</div>
+          <div class="hotel-time return">🏨 Kembali: Setelah tengah malam</div>
+        </div>
+        
+        <div class="info-card" style="background: linear-gradient(135deg, rgba(184,134,11,0.3), rgba(218,165,32,0.3));">
+          <h3>🌅 Saran Aktivitas Siang</h3>
+          <p><strong><a href="https://www.visitgreenwich.org.uk/" target="_blank">Greenwich</a></strong> - Berdiri di garis meridian 0°<br>
+          <strong><a href="https://skygarden.london/" target="_blank">Sky Garden</a></strong> - Taman gratis di gedung tertinggi (booking!)<br>
+          <strong><a href="https://www.camdenmarket.com/" target="_blank">Camden Market</a></strong> - Pasar unik & street food</p>
+        </div>
+        
+        <div class="suggestion-grid">
+          <div class="suggestion-item">
+            <strong><a href="https://www.visitgreenwich.org.uk/" target="_blank">🌳 Greenwich</a></strong>
+            Royal Observatory, Cutty Sark, pasar
+          </div>
+          <div class="suggestion-item">
+            <strong><a href="https://skygarden.london/" target="_blank">🏙️ Sky Garden</a></strong>
+            Gratis, tapi harus booking online
+          </div>
+          <div class="suggestion-item">
+            <strong><a href="https://www.camdenmarket.com/" target="_blank">🛍️ Camden</a></strong>
+            Pasar, musik, street art
+          </div>
+          <div class="suggestion-item">
+            <strong>🎭 Shoreditch</strong>
+            Hipster area, cafe, street art
+          </div>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>🎆 Malam Tahun Baru</h3>
+          <p><strong>South Bank</strong> - View gratis kembang api<br>
+          <strong>Primrose Hill</strong> - Pemandangan skyline<br>
+          <strong>Trafalgar Square</strong> - Gratis tapi ramai<br>
+          ⚠️ <a href="https://tfl.gov.uk/" target="_blank" style="color: white;">Tube</a> buka 24 jam malam ini!</p>
+        </div>
+        
+        <div class="info-card warning">
+          <p>💡 Banyak restoran tutup atau perlu booking jauh hari!</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 11: Day 9 - Airport Return -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 9</span>
+        <h2>Kamis, 1 Jan 2026 ✈️</h2>
+        <p class="subtitle">Hari Keberangkatan Pulang</p>
+        
+        <div class="info-card">
+          <h3>✈️ Tips Keberangkatan</h3>
+          <p>Hotel hanya 5 menit ke <a href="https://www.heathrow.com/" target="_blank">Heathrow</a>!<br>
+          Check-out: 11:00 (atau minta late check-out)<br>
+          Tiba bandara: 3 jam sebelum penerbangan</p>
+        </div>
+        
+        <div class="info-card" style="background: linear-gradient(135deg, rgba(34,139,34,0.3), rgba(46,139,87,0.3));">
+          <h3>🌅 Jika Penerbangan Sore/Malam</h3>
+          <p><strong>Pagi santai</strong> - Sarapan gratis di hotel<br>
+          <strong><a href="https://www.kew.org/" target="_blank">Kew Gardens</a></strong> - Taman botani UNESCO (30 menit)<br>
+          <strong><a href="https://uk.westfield.com/london" target="_blank">Westfield Shopping</a></strong> - Mall besar dekat Heathrow</p>
+        </div>
+        
+        <div class="suggestion-grid">
+          <div class="suggestion-item">
+            <strong><a href="https://www.kew.org/" target="_blank">🌿 Kew Gardens</a></strong>
+            UNESCO site, 30 menit
+          </div>
+          <div class="suggestion-item">
+            <strong><a href="https://uk.westfield.com/london" target="_blank">🛒 Westfield</a></strong>
+            Shopping terakhir, 15 menit
+          </div>
+          <div class="suggestion-item">
+            <strong>☕ Hotel</strong>
+            Sarapan, santai, pack
+          </div>
+          <div class="suggestion-item">
+            <strong>✈️ Terminal</strong>
+            Duty free, makan, relax
+          </div>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>⚠️ Perhatian 1 Januari</h3>
+          <p>Banyak atraksi TUTUP hari ini!<br>
+          Transport umum jadwal terbatas<br>
+          Cek jadwal buka online sebelum pergi</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>🧳 Sebelum Berangkat</h3>
+          <p>Titip koper di hotel jika perlu<br>
+          <a href="https://www.heathrowhoppa.com/" target="_blank">Heathrow Hoppa</a> bus dari hotel: £6.80/orang</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 12: Booking List -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Penting!</span>
+        <h2>Daftar Booking</h2>
+        <p class="subtitle">Prioritas pemesanan tiket</p>
+        
+        <div class="info-card highlight">
+          <h3>🔴 KRITIS - Booking SEGERA!</h3>
+          <p><strong>1. <a href="https://www.officiallondontheatre.com/" target="_blank" style="color: white;">West End Musical</a></strong> - 26 Des 19:30<br>
+          <strong>2. <a href="https://hydeparkwinterwonderland.com/" target="_blank" style="color: white;">Winter Wonderland</a></strong> - 29 Des 12:00</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🟡 Prioritas Tinggi</h3>
+          <p><strong>3. <a href="https://www.rct.uk/visit/windsor-castle" target="_blank">Windsor Castle</a></strong> - 24 Des 13:00<br>
+          <strong>4. <a href="https://www.hrp.org.uk/tower-of-london/" target="_blank">Tower of London</a></strong> - 27 Des 10:30 (~£192)<br>
+          <strong>5. <a href="https://www.londoneye.com/" target="_blank">London Eye</a></strong> - 27 Des 17:00 (~£210)<br>
+          <strong>6. <a href="https://www.thesnowcentre.com/" target="_blank">Snow Centre</a></strong> - 28 Des 11:00 (~£295)<br>
+          <strong>7. <a href="https://skygarden.london/" target="_blank">Sky Garden</a></strong> - 31 Des (GRATIS tapi wajib booking!)</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>🟢 Prioritas Sedang</h3>
+          <p><strong>8. Restoran NYE</strong> - 31 Des malam</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Tidak Perlu Booking</h3>
+          <p><a href="https://changing-guard.com/" target="_blank">Changing of Guard</a>, <a href="https://www.britishmuseum.org/" target="_blank">British Museum</a>, <a href="https://www.nationalgallery.org.uk/" target="_blank">National Gallery</a>, <a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a>, <a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a>, <a href="https://www.portobelloroad.co.uk/" target="_blank">Notting Hill</a>, <a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a>, <a href="https://www.harrods.com/" target="_blank">Harrods</a>, <a href="https://www.visitgreenwich.org.uk/" target="_blank">Greenwich</a>, <a href="https://www.camdenmarket.com/" target="_blank">Camden</a></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 13: Notes - Weather & Clothing -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Catatan Penting</span>
+        <h2>Cuaca & Pakaian</h2>
+        <p class="subtitle">Desember di UK: 0-10°C, hujan & angin</p>
+        
+        <div class="info-card highlight">
+          <h3>🧥 Pakaian Luar (WAJIB!)</h3>
+          <p><strong>Winter coat</strong> - Wool atau puffer jacket yang tahan angin<br>
+          <strong>Penahan angin leher</strong> - Syal, scarf, atau wind breaker</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>👕 Pakaian Dalam</h3>
+          <p><strong>Baju hangat</strong> - Sweater, hoodie, turtle neck<br>
+          <strong>Long john/thermal</strong> - Rekomendasi: <a href="https://www.uniqlo.com/uk/" target="_blank">Uniqlo</a> atau <a href="https://www.marksandspencer.com/" target="_blank">Marks & Spencer</a></p>
+        </div>
+        
+        <div class="info-card">
+          <h3>👟 Sepatu</h3>
+          <p><strong>Sneakers nyaman & kedap air</strong> - Akan sering jalan kaki!<br>
+          Rekomendasi: Nike Air, New Balance, Adidas Ultra Boost</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🧤 Aksesoris Winter</h3>
+          <p>Topi winter, kaos kaki tebal, stoking winter, sarung tangan, penutup kuping<br>
+          💡 <em>Bisa dibeli di UK jika tidak mau bawa berat dari Jakarta</em></p>
+        </div>
+        
+        <div class="info-card success">
+          <p>❄️ Kemungkinan salju kecil, tapi hujan & angin sering terjadi!</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 14: Notes - Health & Medicine -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Catatan Penting</span>
+        <h2>Kesehatan & Obat</h2>
+        <p class="subtitle">Di UK sangat susah dapat obat resep!</p>
+        
+        <div class="info-card highlight">
+          <h3>💊 Obat WAJIB Bawa</h3>
+          <p><strong>Obat bawaan</strong> - Asma, jantung, dll + resep dokter<br>
+          <strong>Antibiotik</strong> - Dengan resep (sulit didapat di UK)<br>
+          <strong>Tolak Angin</strong> - Untuk masuk angin<br>
+          <strong>Diatabs</strong> - Obat diare</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>💪 Suplemen</h3>
+          <p><strong>Vitamin C & D</strong> - Jaga imunitas tetap kuat<br>
+          <strong>Masker</strong> - Di Tube banyak micro debu</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🫒 Minyak-minyakan</h3>
+          <p>Bagus untuk menghangatkan badan saat winter<br>
+          Kutus-kutus, minyak angin, Young Living, kayu putih</p>
+        </div>
+        
+        <div class="info-card success">
+          <p>⚠️ Di UK sangat sulit mendapatkan obat resep tanpa konsultasi dokter lokal!</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 15: Notes - Finance & Connectivity -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Catatan Penting</span>
+        <h2>Keuangan & Internet</h2>
+        <p class="subtitle">UK mostly cashless!</p>
+        
+        <div class="info-card highlight">
+          <h3>💳 Pembayaran</h3>
+          <p><strong>Kartu kredit/debit</strong> - Urus ke bank dulu agar bisa dipakai di luar negeri<br>
+          Contoh: Debit BCA bisa dipakai jika sudah diinfokan ke bank<br>
+          <strong>Cash secukupnya</strong> - Hindari pecahan £50 (sering ditolak)<br>
+          💡 Idealnya pecahan £20</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>📱 Internet</h3>
+          <p><strong>WiFi portable atau roaming</strong><br>
+          <a href="https://www.telkomsel.com/en/roaming" target="_blank">Telkomsel</a> roaming unlimited: ~Rp400rb</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🔌 Elektronik</h3>
+          <p><strong>Converter kabel UK</strong> - Colokan 3 pin<br>
+          <strong>Kabel gulung/extension</strong> - Sangat berguna!</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 16: Notes - Other Essentials -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1553531384-cc64ac80f931?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Catatan Penting</span>
+        <h2>Barang Penting Lainnya</h2>
+        <p class="subtitle">Jangan lupa bawa!</p>
+        
+        <div class="info-card highlight">
+          <h3>🌶️ Sambal/Saus (PENTING!)</h3>
+          <p>Makanan di UK rata-rata hambar untuk orang Indonesia<br>
+          <strong>Bawa:</strong> Saos ABC sachet, sambal botol (Bu Rudy, dll)</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>🚿 Alat Cebok Portable</h3>
+          <p>Bidet sprayer portable - sangat berguna!<br>
+          Beli di Tokopedia: <a href="https://tokopedia.link/GuKCREr5Arb" target="_blank">tokopedia.link/GuKCREr5Arb</a></p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>📱 Apps yang Harus Download</h3>
+          <p><strong><a href="https://citymapper.com/" target="_blank">Citymapper</a></strong> - Navigasi transport London terbaik!<br>
+          <strong><a href="https://www.uber.com/" target="_blank">Uber</a></strong> - Transportasi on-demand<br>
+          <strong>Google Maps</strong> - Navigasi umum</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Checklist Terakhir</h3>
+          <p>☐ Paspor & visa (jika perlu)<br>
+          ☐ Tiket pesawat & konfirmasi hotel<br>
+          ☐ Travel insurance<br>
+          ☐ Kartu debit/kredit sudah diaktifkan</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 17: Closing -->
+    <div class="swiper-slide title-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <h1>Sampai Jumpa di London!</h1>
+        <div class="divider"></div>
+        <p class="subtitle">24 Desember 2025 - 1 Januari 2026</p>
+        <p style="font-size: 14px; opacity: 0.8; margin-top: 20px;">21+ Lokasi Ikonik • 9 Hari Petualangan</p>
+        <div class="info-card highlight" style="margin-top: 24px; text-align: center;">
+          <p style="font-size: 16px;"><strong>Jangan lupa booking tiket SEGERA!</strong></p>
+        </div>
+        <p style="font-size: 13px; opacity: 0.6; margin-top: 16px;">Selamat Tahun Baru 2026! 🎆</p>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="swiper-pagination"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper('.swiper', {
+    direction: 'horizontal',
+    loop: false,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    keyboard: {
+      enabled: true,
+    },
+    grabCursor: true,
+  });
+</script>
+
+</body>
+</html>
