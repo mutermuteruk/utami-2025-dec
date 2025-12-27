@@ -22,13 +22,25 @@
       overflow: hidden;
     }
     
-    .swiper { width: 100%; height: 100vh; height: 100dvh; }
+    .swiper { 
+      width: 100%; 
+      height: 100vh; 
+      height: 100dvh;
+      overflow: hidden;
+    }
+    
+    .swiper-wrapper {
+      display: flex;
+    }
     
     .swiper-slide {
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
     }
     
     .slide-bg {
@@ -38,6 +50,7 @@
       background-size: cover;
       background-position: center;
       z-index: 1;
+      pointer-events: none;
     }
     
     .slide-bg::after {
@@ -60,7 +73,9 @@
       padding: 60px 20px 20px 20px;
       height: 100%;
       overflow-y: auto;
+      overflow-x: hidden;
       background: linear-gradient(to bottom, rgba(10, 22, 40, 0.7) 0%, rgba(10, 22, 40, 0.9) 30%, rgba(10, 22, 40, 1) 50%);
+      -webkit-overflow-scrolling: touch;
     }
     
     .day-badge {
@@ -231,6 +246,27 @@
     .swiper-pagination-bullet { background: white; opacity: 0.4; width: 8px; height: 8px; }
     .swiper-pagination-bullet-active { opacity: 1; background: #CC0000; }
     
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: white;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+      opacity: 1;
+    }
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 24px;
+    }
+    @media (max-width: 768px) {
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: none;
+      }
+    }
+    
     .swipe-hint {
       position: absolute;
       bottom: 50px; left: 50%;
@@ -264,9 +300,116 @@
     .suggestion-item strong { display: block; margin-bottom: 4px; }
     .suggestion-item strong a { color: white; text-decoration: none; }
     .suggestion-item strong a:hover { text-decoration: underline; }
+    
+    /* Day Pills Navigation */
+    .day-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .day-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+    }
+    
+    .day-pills::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .day-pill {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    .day-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .day-pill.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .day-pill.completed {
+      background: rgba(46, 204, 113, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .day-pill.completed::before {
+      content: "✓ ";
+      font-size: 10px;
+    }
+    
+    /* Emoji prefix for day pills */
+    .day-pill[data-day="intro"]::before { content: "🏠 "; }
+    .day-pill[data-day="24"]::before { content: "🎄 "; }
+    .day-pill[data-day="25"]::before { content: "⭐ "; }
+    .day-pill[data-day="26"]::before { content: "🛍️ "; }
+    .day-pill[data-day="27"]::before { content: "🎡 "; }
+    .day-pill[data-day="28"]::before { content: "🚢 "; }
+    .day-pill[data-day="29"]::before { content: "⚽ "; }
+    .day-pill[data-day="30"]::before { content: "🦁 "; }
+    .day-pill[data-day="31"]::before { content: "🎆 "; }
+    .day-pill[data-day="1"]::before { content: "✈️ "; }
+    .day-pill[data-day="booking"]::before { content: "📋 "; }
+    .day-pill[data-day="tips"]::before { content: "💡 "; }
+    
+    /* Override emoji for completed days */
+    .day-pill.completed[data-day]::before { content: "✓ "; }
+    
+    /* Adjust slide content padding for nav */
+    .slide-content {
+      padding-top: 70px !important;
+    }
   </style>
 </head>
 <body>
+
+<!-- Day Pills Navigation -->
+<nav class="day-nav">
+  <div class="day-pills">
+    <div class="day-pill" data-day="intro" data-slide="0">Intro</div>
+    <div class="day-pill" data-day="24" data-slide="2" data-date="2025-12-24">24</div>
+    <div class="day-pill" data-day="25" data-slide="3" data-date="2025-12-25">25</div>
+    <div class="day-pill" data-day="26" data-slide="4" data-date="2025-12-26">26</div>
+    <div class="day-pill" data-day="27" data-slide="5" data-date="2025-12-27">27</div>
+    <div class="day-pill" data-day="28" data-slide="6" data-date="2025-12-28">28</div>
+    <div class="day-pill" data-day="29" data-slide="7" data-date="2025-12-29">29</div>
+    <div class="day-pill" data-day="30" data-slide="8" data-date="2025-12-30">30</div>
+    <div class="day-pill" data-day="31" data-slide="9" data-date="2025-12-31">31</div>
+    <div class="day-pill" data-day="1" data-slide="10" data-date="2026-01-01">1 Jan</div>
+    <div class="day-pill" data-day="booking" data-slide="11">Booking</div>
+    <div class="day-pill" data-day="tips" data-slide="12">Tips</div>
+  </div>
+</nav>
 
 <div class="swiper">
   <div class="swiper-wrapper">
@@ -281,7 +424,7 @@
         <p class="subtitle">24 Desember 2025 - 1 Januari 2026</p>
         <p style="font-size: 13px; opacity: 0.7; margin-top: 8px;">Panduan Perjalanan Singkat</p>
         <p style="font-size: 11px; opacity: 0.5; margin-top: 12px; max-width: 280px;">⚠️ Panduan ini hanya sebagai acuan awal dan dapat berubah sewaktu-waktu.</p>
-        <p style="font-size: 10px; opacity: 0.4; margin-top: 16px;">v2.4 | 26 Des 2025, 09:05</p>
+        <p style="font-size: 10px; opacity: 0.4; margin-top: 16px;">v3.1 | 27 Des 2025, 11:20</p>
         <div class="swipe-hint">
           <span>Geser untuk mulai</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -351,98 +494,21 @@
       </div>
     </div>
     
-    <!-- Slide 5: Day 3 - Boxing Day Battersea Power Station -->
+    <!-- Slide 5: Day 3 - Boxing Day COMPLETED -->
     <div class="swiper-slide">
       <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1617952739858-28043cecdae3?w=1200&q=80');"></div>
       <div class="slide-content">
-        <span class="day-badge">Hari 3</span>
+        <span class="day-badge green">Hari 3 ✓</span>
         <h2>Jumat, 26 Des 🛍️</h2>
-        <p class="subtitle">Boxing Day - Battersea Power Station, Covent Garden</p>
-        
-        <div class="hotel-times">
-          <div class="hotel-time">🚗 Berangkat: 09:00</div>
-          <div class="hotel-time return">🏨 Kembali: ~18:30</div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time">09:45</span>
-          <div class="timeline-content">
-            <h4><a href="https://batterseapowerstation.co.uk/" target="_blank">Battersea Power Station</a></h4>
-            <p>Tiba, jalan-jalan Circus West Village</p>
-          </div>
-        </div>
-        <div class="travel-time">🚗 45 menit dari hotel | Parkir: Waitrose Nine Elms</div>
-        
-        <div class="timeline-item">
-          <span class="time red">10:00</span>
-          <div class="timeline-content">
-            <h4>Shopping: Electric Boulevard</h4>
-            <p>Zara (terbesar di London!), Mango, Reiss, Hugo Boss</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time">11:00</span>
-          <div class="timeline-content">
-            <h4>Turbine Hall + LEGO Store</h4>
-            <p>Arsitektur Art Deco, model LEGO Battersea, play area</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time">11:30</span>
-          <div class="timeline-content">
-            <h4><a href="https://lift109.co.uk/" target="_blank">Lift 109</a> 🏭 OPSIONAL</h4>
-            <p>Lift kaca ke puncak cerobong, view 360° London (~£16/orang)</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time red">12:00</span>
-          <div class="timeline-content">
-            <h4><a href="https://www.arcadefoodhall.com/" target="_blank">Arcade Food Hall</a> 🍽️ HALAL</h4>
-            <p>Roti King (Malaysian), Shatta & Toum, Hero (Indian), Le Bab</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time">13:30</span>
-          <div class="timeline-content">
-            <h4><a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a></h4>
-            <p>Street performers, Apple Market, dekorasi Natal</p>
-          </div>
-        </div>
-        <div class="travel-time">🚗 30 menit berkendara</div>
-        
-        <div class="timeline-item">
-          <span class="time">16:30</span>
-          <div class="timeline-content">
-            <h4>Makan Malam 🍽️</h4>
-            <p>Chinatown (5 min jalan) atau Dishoom (booking!)</p>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <span class="time">~18:30</span>
-          <div class="timeline-content">
-            <h4>Kembali ke Hotel</h4>
-            <p>Istirahat lebih awal</p>
-          </div>
-        </div>
-        
-        <div class="info-card highlight">
-          <h3>🅿️ Parkir - WAJIB BOOKING</h3>
-          <p><a href="https://www.justpark.com/" target="_blank" style="color: white;">JustPark</a>: Waitrose Nine Elms (3 min jalan ke Battersea)</p>
-        </div>
-        
-        <div class="info-card warning">
-          <h3>🏭 Jika SKIP Lift 109</h3>
-          <p>Lebih lama di LEGO Store + Turbine Hall foto-foto + makan siang santai multi-kitchen</p>
-        </div>
+        <p class="subtitle">Sudah selesai</p>
         
         <div class="info-card success">
-          <h3>☕ Pagi Santai</h3>
-          <p>Sarapan di hotel (gratis!) | Battersea buka jam 10:00</p>
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Battersea Power Station<br>
+          Oxford Street (Selfridges)<br>
+          Makan siang di Oxford Street<br>
+          Covent Garden<br>
+          Makan malam di Soho</p>
         </div>
       </div>
     </div>
@@ -975,167 +1041,88 @@
         
         <div class="info-card warning">
           <h3>🟡 Prioritas Tinggi</h3>
-          <p><strong>2. <a href="https://www.justpark.com/" target="_blank">Parkir Battersea</a></strong> - 26 Des (Waitrose Nine Elms)<br>
-          <strong>3. <a href="https://www.londoneye.com/" target="_blank">London Eye</a></strong> - 27 Des 15:30 (~£210)<br>
-          <strong>4. <a href="https://www.chelseafc.com/en/stamford-bridge/stadium-tours" target="_blank">Chelsea FC Tour</a></strong> - 29 Des 18:00<br>
-          <strong>5. <a href="https://www.zsl.org/zsl-london-zoo" target="_blank">London Zoo</a></strong> - 30 Des 10:00<br>
-          <strong>6. <a href="https://skygarden.london/darwin-brasserie" target="_blank">Darwin Brasserie</a></strong> - 30 Des 18:30<br>
-          <strong>7. <a href="https://www.rct.uk/visit/windsor-castle" target="_blank">Windsor Castle</a></strong> - 31 Des 10:00</p>
+          <p><strong>2. <a href="https://www.londoneye.com/" target="_blank">London Eye</a></strong> - 27 Des 15:30 (~£210)<br>
+          <strong>3. <a href="https://www.chelseafc.com/en/stamford-bridge/stadium-tours" target="_blank">Chelsea FC Tour</a></strong> - 29 Des 18:00<br>
+          <strong>4. <a href="https://www.zsl.org/zsl-london-zoo" target="_blank">London Zoo</a></strong> - 30 Des 10:00<br>
+          <strong>5. <a href="https://skygarden.london/darwin-brasserie" target="_blank">Darwin Brasserie</a></strong> - 30 Des 18:30<br>
+          <strong>6. <a href="https://www.rct.uk/visit/windsor-castle" target="_blank">Windsor Castle</a></strong> - 31 Des 10:00</p>
         </div>
         
         <div class="info-card">
           <h3>🟢 Prioritas Sedang</h3>
-          <p><strong>8. Restoran NYE</strong> - 31 Des 18:00 (South Bank area)<br>
-          <strong>9. <a href="https://lift109.co.uk/" target="_blank">Lift 109</a></strong> - 26 Des 11:30 (OPSIONAL, ~£16/orang)</p>
+          <p><strong>7. Restoran NYE</strong> - 31 Des 18:00 (South Bank area)</p>
         </div>
         
         <div class="info-card success">
           <h3>✅ Tidak Perlu Booking</h3>
-          <p><a href="https://batterseapowerstation.co.uk/" target="_blank">Battersea Power Station</a>, <a href="https://changing-guard.com/" target="_blank">Changing of Guard</a>, <a href="https://www.britishmuseum.org/" target="_blank">British Museum</a>, <a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a>, <a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a>, <a href="https://www.portobelloroad.co.uk/" target="_blank">Notting Hill</a>, <a href="https://www.shepherdsbushmarket.co.uk/" target="_blank">Shepherd's Bush</a>, <a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a>, <a href="https://www.harrods.com/" target="_blank">Harrods</a>, <a href="https://columbiaroad.info/" target="_blank">Columbia Road</a>, <a href="https://www.bricklane.org/" target="_blank">Brick Lane</a>, <a href="https://www.visitgreenwich.org.uk/" target="_blank">Greenwich</a>, <a href="https://www.thamesclippers.com/" target="_blank">Thames Boat</a></p>
+          <p><a href="https://changing-guard.com/" target="_blank">Changing of Guard</a>, <a href="https://www.britishmuseum.org/" target="_blank">British Museum</a>, <a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a>, <a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a>, <a href="https://www.portobelloroad.co.uk/" target="_blank">Notting Hill</a>, <a href="https://www.shepherdsbushmarket.co.uk/" target="_blank">Shepherd's Bush</a>, <a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a>, <a href="https://www.harrods.com/" target="_blank">Harrods</a>, <a href="https://columbiaroad.info/" target="_blank">Columbia Road</a>, <a href="https://www.bricklane.org/" target="_blank">Brick Lane</a>, <a href="https://www.visitgreenwich.org.uk/" target="_blank">Greenwich</a>, <a href="https://www.thamesclippers.com/" target="_blank">Thames Boat</a></p>
         </div>
       </div>
     </div>
     
-    <!-- Slide 13: Notes - Weather & Clothing -->
+    <!-- Slide 13: Tips 1 - Cuaca, Pakaian & Kesehatan -->
     <div class="swiper-slide">
       <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1200&q=80');"></div>
       <div class="slide-content">
-        <span class="day-badge purple">Catatan Penting</span>
-        <h2>Cuaca & Pakaian</h2>
+        <span class="day-badge purple">Tips</span>
+        <h2>Cuaca, Pakaian & Kesehatan</h2>
         <p class="subtitle">Desember di UK: 0-10°C, hujan & angin</p>
         
         <div class="info-card highlight">
-          <h3>🧥 Pakaian Luar (WAJIB!)</h3>
-          <p><strong>Winter coat</strong> - Wool atau puffer jacket yang tahan angin<br>
-          <strong>Penahan angin leher</strong> - Syal, scarf, atau wind breaker</p>
-        </div>
-        
-        <div class="info-card">
-          <h3>👕 Pakaian Dalam</h3>
-          <p><strong>Baju hangat</strong> - Sweater, hoodie, turtle neck<br>
-          <strong>Long john/thermal</strong> - Rekomendasi: <a href="https://www.uniqlo.com/uk/" target="_blank">Uniqlo</a> atau <a href="https://www.marksandspencer.com/" target="_blank">Marks & Spencer</a></p>
-        </div>
-        
-        <div class="info-card">
-          <h3>👟 Sepatu</h3>
-          <p><strong>Sneakers nyaman & kedap air</strong> - Akan sering jalan kaki!<br>
-          Rekomendasi: Nike Air, New Balance, Adidas Ultra Boost</p>
+          <h3>🧥 Pakaian WAJIB</h3>
+          <p>Winter coat (wool/puffer), syal, sarung tangan, topi winter<br>
+          Thermal/long john (<a href="https://www.uniqlo.com/uk/" target="_blank">Uniqlo</a>/<a href="https://www.marksandspencer.com/" target="_blank">M&S</a>)<br>
+          Sepatu kedap air & nyaman untuk jalan kaki</p>
         </div>
         
         <div class="info-card warning">
-          <h3>🧤 Aksesoris Winter</h3>
-          <p>Topi winter, kaos kaki tebal, stoking winter, sarung tangan, penutup kuping<br>
-          💡 <em>Bisa dibeli di UK jika tidak mau bawa berat dari Jakarta</em></p>
-        </div>
-        
-        <div class="info-card success">
-          <p>❄️ Kemungkinan salju kecil, tapi hujan & angin sering terjadi!</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Slide 14: Notes - Health & Medicine -->
-    <div class="swiper-slide">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=80');"></div>
-      <div class="slide-content">
-        <span class="day-badge purple">Catatan Penting</span>
-        <h2>Kesehatan & Obat</h2>
-        <p class="subtitle">Di UK sangat susah dapat obat resep!</p>
-        
-        <div class="info-card highlight">
           <h3>💊 Obat WAJIB Bawa</h3>
-          <p><strong>Obat bawaan</strong> - Asma, jantung, dll + resep dokter<br>
-          <strong>Antibiotik</strong> - Dengan resep (sulit didapat di UK)<br>
-          <strong>Tolak Angin</strong> - Untuk masuk angin<br>
-          <strong>Diatabs</strong> - Obat diare</p>
-        </div>
-        
-        <div class="info-card">
-          <h3>💪 Suplemen</h3>
-          <p><strong>Vitamin C & D</strong> - Jaga imunitas tetap kuat<br>
-          <strong>Masker</strong> - Di Tube banyak micro debu</p>
-        </div>
-        
-        <div class="info-card warning">
-          <h3>🫒 Minyak-minyakan</h3>
-          <p>Bagus untuk menghangatkan badan saat winter<br>
-          Kutus-kutus, minyak angin, Young Living, kayu putih</p>
+          <p>Obat bawaan + resep dokter, antibiotik (sulit di UK!)<br>
+          Tolak Angin, Diatabs, Vitamin C & D<br>
+          Minyak angin/kutus-kutus untuk menghangatkan</p>
         </div>
         
         <div class="info-card success">
-          <p>⚠️ Di UK sangat sulit mendapatkan obat resep tanpa konsultasi dokter lokal!</p>
+          <p>❄️ Hujan & angin sering! Di UK sangat sulit dapat obat resep tanpa dokter lokal.</p>
         </div>
       </div>
     </div>
     
-    <!-- Slide 15: Notes - Finance & Connectivity -->
-    <div class="swiper-slide">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&q=80');"></div>
-      <div class="slide-content">
-        <span class="day-badge purple">Catatan Penting</span>
-        <h2>Keuangan & Internet</h2>
-        <p class="subtitle">UK mostly cashless!</p>
-        
-        <div class="info-card highlight">
-          <h3>💳 Pembayaran</h3>
-          <p><strong>Kartu kredit/debit</strong> - Urus ke bank dulu agar bisa dipakai di luar negeri<br>
-          Contoh: Debit BCA bisa dipakai jika sudah diinfokan ke bank<br>
-          <strong>Cash secukupnya</strong> - Hindari pecahan £50 (sering ditolak)<br>
-          💡 Idealnya pecahan £20</p>
-        </div>
-        
-        <div class="info-card">
-          <h3>📱 Internet</h3>
-          <p><strong>WiFi portable atau roaming</strong><br>
-          <a href="https://www.telkomsel.com/en/roaming" target="_blank">Telkomsel</a> roaming unlimited: ~Rp400rb</p>
-        </div>
-        
-        <div class="info-card warning">
-          <h3>🔌 Elektronik</h3>
-          <p><strong>Converter kabel UK</strong> - Colokan 3 pin<br>
-          <strong>Kabel gulung/extension</strong> - Sangat berguna!</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Slide 16: Notes - Other Essentials -->
+    <!-- Slide 14: Tips 2 - Keuangan & Barang Penting -->
     <div class="swiper-slide">
       <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1553531384-cc64ac80f931?w=1200&q=80');"></div>
       <div class="slide-content">
-        <span class="day-badge purple">Catatan Penting</span>
-        <h2>Barang Penting Lainnya</h2>
-        <p class="subtitle">Jangan lupa bawa!</p>
+        <span class="day-badge purple">Tips</span>
+        <h2>Keuangan & Barang Penting</h2>
+        <p class="subtitle">UK mostly cashless!</p>
         
         <div class="info-card highlight">
-          <h3>🌶️ Sambal/Saus (PENTING!)</h3>
-          <p>Makanan di UK rata-rata hambar untuk orang Indonesia<br>
-          <strong>Bawa:</strong> Saos ABC sachet, sambal botol (Bu Rudy, dll)</p>
+          <h3>💳 Pembayaran & Internet</h3>
+          <p>Kartu kredit/debit (urus ke bank dulu!)<br>
+          Cash pecahan £20 (hindari £50)<br>
+          <a href="https://www.telkomsel.com/en/roaming" target="_blank">Telkomsel</a> roaming ~Rp400rb</p>
         </div>
         
         <div class="info-card">
-          <h3>🚿 Alat Cebok Portable</h3>
-          <p>Bidet sprayer portable - sangat berguna!<br>
-          Beli di Tokopedia: <a href="https://tokopedia.link/GuKCREr5Arb" target="_blank">tokopedia.link/GuKCREr5Arb</a></p>
+          <h3>🔌 Elektronik & Apps</h3>
+          <p>Converter UK (3 pin), kabel extension<br>
+          <a href="https://citymapper.com/" target="_blank">Citymapper</a> (navigasi London), <a href="https://www.uber.com/" target="_blank">Uber</a>, Google Maps</p>
         </div>
         
         <div class="info-card warning">
-          <h3>📱 Apps yang Harus Download</h3>
-          <p><strong><a href="https://citymapper.com/" target="_blank">Citymapper</a></strong> - Navigasi transport London terbaik!<br>
-          <strong><a href="https://www.uber.com/" target="_blank">Uber</a></strong> - Transportasi on-demand<br>
-          <strong>Google Maps</strong> - Navigasi umum</p>
+          <h3>🌶️ Jangan Lupa!</h3>
+          <p>Sambal/saus ABC (makanan UK hambar!)<br>
+          Alat cebok portable (<a href="https://tokopedia.link/GuKCREr5Arb" target="_blank">tokopedia.link</a>)</p>
         </div>
         
         <div class="info-card success">
-          <h3>✅ Checklist Terakhir</h3>
-          <p>☐ Paspor & visa (jika perlu)<br>
-          ☐ Tiket pesawat & konfirmasi hotel<br>
-          ☐ Travel insurance<br>
-          ☐ Kartu debit/kredit sudah diaktifkan</p>
+          <h3>✅ Checklist</h3>
+          <p>Paspor & visa | Tiket & konfirmasi hotel | Travel insurance | Kartu bank aktif</p>
         </div>
       </div>
     </div>
     
-    <!-- Slide 17: Closing -->
+    <!-- Slide 15: Closing -->
     <div class="swiper-slide title-slide">
       <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=1200&q=80');"></div>
       <div class="slide-content">
@@ -1153,23 +1140,127 @@
   </div>
   
   <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-  const swiper = new Swiper('.swiper', {
+document.addEventListener('DOMContentLoaded', function() {
+  // Day pills navigation - define first so it's available in Swiper callbacks
+  var pills = document.querySelectorAll('.day-pill');
+  
+  // Update active pill based on slide index
+  function updateActivePill(slideIndex) {
+    for (var j = 0; j < pills.length; j++) {
+      pills[j].classList.remove('active');
+      var pillSlide = parseInt(pills[j].getAttribute('data-slide'));
+      if (pillSlide === slideIndex) {
+        pills[j].classList.add('active');
+      }
+    }
+  }
+  
+  // Scroll the active pill into view
+  function scrollPillIntoView(slideIndex) {
+    var activePill = document.querySelector('.day-pill[data-slide="' + slideIndex + '"]');
+    if (activePill) {
+      activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+  
+  // Auto-mark completed days based on current date
+  function updateCompletedDays() {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    for (var k = 0; k < pills.length; k++) {
+      var dateStr = pills[k].getAttribute('data-date');
+      if (dateStr) {
+        var parts = dateStr.split('-');
+        var pillDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        if (pillDate < today) {
+          pills[k].classList.add('completed');
+        } else {
+          pills[k].classList.remove('completed');
+        }
+      }
+    }
+  }
+  
+  // Find today's slide index
+  function getTodaySlideIndex() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var monthStr = month < 10 ? '0' + month : '' + month;
+    var dayStr = day < 10 ? '0' + day : '' + day;
+    var todayStr = year + '-' + monthStr + '-' + dayStr;
+    
+    var todayPill = document.querySelector('.day-pill[data-date="' + todayStr + '"]');
+    if (todayPill) {
+      return parseInt(todayPill.getAttribute('data-slide')) || 0;
+    }
+    return 0;
+  }
+  
+  // Mark completed days first
+  updateCompletedDays();
+  
+  var initialSlide = getTodaySlideIndex();
+  
+  // Initialize Swiper
+  var swiper = new Swiper('.swiper', {
     direction: 'horizontal',
     loop: false,
+    initialSlide: initialSlide,
+    speed: 300,
+    touchRatio: 1,
+    touchAngle: 45,
+    simulateTouch: true,
+    allowTouchMove: true,
+    followFinger: true,
+    threshold: 5,
+    touchStartPreventDefault: false,
+    touchMoveStopPropagation: false,
+    passiveListeners: true,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
     keyboard: {
       enabled: true,
     },
     grabCursor: true,
+    on: {
+      slideChange: function() {
+        updateActivePill(this.activeIndex);
+        scrollPillIntoView(this.activeIndex);
+      },
+      init: function() {
+        updateActivePill(this.activeIndex);
+        scrollPillIntoView(this.activeIndex);
+      }
+    }
   });
+  
+  // Click handler for pills
+  for (var i = 0; i < pills.length; i++) {
+    pills[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var slideIndex = parseInt(this.getAttribute('data-slide'));
+      if (!isNaN(slideIndex) && swiper) {
+        swiper.slideTo(slideIndex);
+      }
+    });
+  }
+});
 </script>
 
 </body>
