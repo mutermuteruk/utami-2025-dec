@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>London Adventure 2025</title>
+  
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a1628;
+      color: white;
+      overflow: hidden;
+    }
+    
+    .swiper { 
+      width: 100%; 
+      height: 100vh; 
+      height: 100dvh;
+      overflow: hidden;
+    }
+    
+    .swiper-wrapper {
+      display: flex;
+    }
+    
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .slide-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .slide-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(10, 22, 40, 0.3) 0%,
+        rgba(10, 22, 40, 0.5) 40%,
+        rgba(10, 22, 40, 0.95) 75%,
+        rgba(10, 22, 40, 1) 100%
+      );
+    }
+    
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px 20px 20px 20px;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom, rgba(10, 22, 40, 0.7) 0%, rgba(10, 22, 40, 0.9) 30%, rgba(10, 22, 40, 1) 50%);
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .day-badge {
+      display: inline-block;
+      background: #CC0000;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    
+    .day-badge.blue { background: #003087; }
+    .day-badge.gold { background: #b8860b; }
+    .day-badge.green { background: #228b22; }
+    .day-badge.purple { background: #6a0dad; }
+    
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(24px, 6vw, 36px);
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    
+    .subtitle { font-size: 14px; opacity: 0.8; margin-bottom: 16px; }
+    
+    .hotel-times {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    
+    .hotel-time {
+      background: rgba(0, 48, 135, 0.4);
+      border: 1px solid rgba(0, 48, 135, 0.6);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .hotel-time.return {
+      background: rgba(40, 167, 69, 0.3);
+      border-color: rgba(40, 167, 69, 0.5);
+    }
+    
+    .info-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .info-card.highlight {
+      background: rgba(204, 0, 0, 0.3);
+      border-color: rgba(204, 0, 0, 0.5);
+    }
+    
+    .info-card.success {
+      background: rgba(40, 167, 69, 0.2);
+      border-color: rgba(40, 167, 69, 0.4);
+    }
+    
+    .info-card.warning {
+      background: rgba(255, 193, 7, 0.2);
+      border-color: rgba(255, 193, 7, 0.4);
+    }
+    
+    .info-card.purple {
+      background: rgba(106, 13, 173, 0.25);
+      border-color: rgba(106, 13, 173, 0.5);
+    }
+    
+    .info-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .info-card p { font-size: 13px; line-height: 1.5; opacity: 0.9; }
+    
+    .info-card a, .timeline-content a, .suggestion-item a {
+      color: #7dd3fc;
+      text-decoration: none;
+    }
+    
+    .info-card a:hover, .timeline-content a:hover, .suggestion-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .timeline-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+    
+    .time {
+      background: #003087;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 55px;
+      text-align: center;
+    }
+    
+    .time.red { background: #CC0000; }
+    
+    .timeline-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .timeline-content h4 a { color: white; text-decoration: none; }
+    .timeline-content h4 a:hover { text-decoration: underline; }
+    .timeline-content p { font-size: 12px; opacity: 0.7; }
+    
+    .travel-time {
+      font-size: 11px;
+      color: #ffc107;
+      margin-left: 67px;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    
+    .cost { color: #ffc107; font-weight: 600; }
+    
+    .title-slide .slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 0;
+      height: 100%;
+      max-height: none;
+    }
+    
+    .title-slide h1 { font-size: clamp(36px, 10vw, 56px); margin-bottom: 16px; }
+    
+    .flag { font-size: 48px; margin-bottom: 20px; }
+    
+    .divider {
+      width: 80px; height: 4px;
+      background: #CC0000;
+      margin: 16px auto;
+      border-radius: 2px;
+    }
+    
+    .swiper-pagination { bottom: 20px !important; }
+    .swiper-pagination-bullet { background: white; opacity: 0.4; width: 8px; height: 8px; }
+    .swiper-pagination-bullet-active { opacity: 1; background: #CC0000; }
+    
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: white;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover {
+      opacity: 1;
+    }
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 24px;
+    }
+    @media (max-width: 768px) {
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: none;
+      }
+    }
+    
+    .swipe-hint {
+      position: absolute;
+      bottom: 50px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px; opacity: 0.6;
+      display: flex; align-items: center; gap: 8px;
+      z-index: 10;
+    }
+    
+    .swipe-hint svg { animation: swipe 1.5s ease-in-out infinite; }
+    
+    @keyframes swipe {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+    }
+    
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    
+    .suggestion-item {
+      background: rgba(255,255,255,0.08);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    
+    .suggestion-item strong { display: block; margin-bottom: 4px; }
+    .suggestion-item strong a { color: white; text-decoration: none; }
+    .suggestion-item strong a:hover { text-decoration: underline; }
+    
+    /* Day Pills Navigation */
+    .day-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .day-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+    }
+    
+    .day-pills::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .day-pill {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    .day-pill:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .day-pill.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .day-pill.completed {
+      background: rgba(46, 204, 113, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .day-pill.completed::before {
+      content: "✓ ";
+      font-size: 10px;
+    }
+    
+    /* Emoji prefix for day pills */
+    .day-pill[data-day="intro"]::before { content: "🏠 "; }
+    .day-pill[data-day="24"]::before { content: "🎄 "; }
+    .day-pill[data-day="25"]::before { content: "⭐ "; }
+    .day-pill[data-day="26"]::before { content: "🛍️ "; }
+    .day-pill[data-day="27"]::before { content: "🎡 "; }
+    .day-pill[data-day="28"]::before { content: "🏰 "; }
+    .day-pill[data-day="29"]::before { content: "🎓 "; }
+    .day-pill[data-day="30"]::before { content: "🏛️ "; }
+    .day-pill[data-day="31"]::before { content: "🏖️ "; }
+    .day-pill[data-day="1"]::before { content: "✈️ "; }
+    .day-pill[data-day="booking"]::before { content: "📋 "; }
+    .day-pill[data-day="tips"]::before { content: "💡 "; }
+    
+    /* Override emoji for completed days */
+    .day-pill.completed[data-day]::before { content: "✓ "; }
+    
+    /* Adjust slide content padding for nav */
+    .slide-content {
+      padding-top: 70px !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Day Pills Navigation -->
+<nav class="day-nav">
+  <div class="day-pills">
+    <div class="day-pill" data-day="intro" data-slide="0">Intro</div>
+    <div class="day-pill" data-day="24" data-slide="2" data-date="2025-12-24">24</div>
+    <div class="day-pill" data-day="25" data-slide="3" data-date="2025-12-25">25</div>
+    <div class="day-pill" data-day="26" data-slide="4" data-date="2025-12-26">26</div>
+    <div class="day-pill" data-day="27" data-slide="5" data-date="2025-12-27">27</div>
+    <div class="day-pill" data-day="28" data-slide="6" data-date="2025-12-28">28</div>
+    <div class="day-pill" data-day="29" data-slide="7" data-date="2025-12-29">29</div>
+    <div class="day-pill" data-day="30" data-slide="8" data-date="2025-12-30">30</div>
+    <div class="day-pill" data-day="31" data-slide="9" data-date="2025-12-31">31</div>
+    <div class="day-pill" data-day="1" data-slide="10" data-date="2026-01-01">1 Jan</div>
+    <div class="day-pill" data-day="booking" data-slide="11">Booking</div>
+    <div class="day-pill" data-day="tips" data-slide="12">Tips</div>
+  </div>
+</nav>
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+    
+    <!-- Slide 1: Title - London Skyline -->
+    <div class="swiper-slide title-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <div class="flag">🇬🇧</div>
+        <h1>London Adventure</h1>
+        <div class="divider"></div>
+        <p class="subtitle">24 Desember 2025 - 1 Januari 2026</p>
+        <p style="font-size: 13px; opacity: 0.7; margin-top: 8px;">Panduan Perjalanan Singkat</p>
+        <p style="font-size: 11px; opacity: 0.5; margin-top: 12px; max-width: 280px;">⚠️ Panduan ini hanya sebagai acuan awal dan dapat berubah sewaktu-waktu.</p>
+        <p style="font-size: 10px; opacity: 0.4; margin-top: 16px;">v4.3 | 30 Des 2025, 09:00</p>
+        <div class="swipe-hint">
+          <span>Geser untuk mulai</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 2: Overview - Westminster -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Ringkasan</span>
+        <h2>9 Hari Petualangan</h2>
+        <p class="subtitle">21+ Lokasi Ikonik London</p>
+        
+        <div class="info-card">
+          <h3>🏨 Hotel</h3>
+          <p><strong><a href="https://www.ihg.com/staybridge/hotels/gb/en/hayes/lhrha/hoteldetail" target="_blank">Staybridge Suites</a></strong><br>Heathrow Bath Road<br>Hanya 5 menit dari bandara!</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Gratis</h3>
+          <p><a href="https://www.britishmuseum.org/" target="_blank">British Museum</a>, <a href="https://www.nationalgallery.org.uk/" target="_blank">National Gallery</a>, <a href="https://www.royalparks.org.uk/parks/hyde-park" target="_blank">Hyde Park</a>, <a href="https://www.coventgarden.london/" target="_blank">Covent Garden</a>, <a href="https://boroughmarket.org.uk/" target="_blank">Borough Market</a></p>
+        </div>
+        
+        <div class="info-card">
+          <h3>📱 App Wajib Download</h3>
+          <p><strong><a href="https://citymapper.com/" target="_blank">Citymapper</a></strong> - Navigasi transport London terbaik!<br><a href="https://www.uber.com/" target="_blank">Uber</a> - Transportasi on-demand</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 3: Day 1 - Windsor Castle -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1574877569028-2e79ef769092?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 1 ✓</span>
+        <h2>Rabu, 24 Des</h2>
+        <p class="subtitle">Sudah selesai</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Tiba di Heathrow<br>
+          Big Ben<br>
+          Buckingham Palace (depan)</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 4: Day 2 - Christmas Day South Bank -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 2 ✓</span>
+        <h2>Kamis, 25 Des 🎄</h2>
+        <p class="subtitle">Sudah selesai</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Tower Bridge - foto-foto<br>
+          Trafalgar Square<br>
+          Chinatown<br>
+          Regent's Park</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 5: Day 3 - Boxing Day COMPLETED -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1617952739858-28043cecdae3?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 3 ✓</span>
+        <h2>Jumat, 26 Des 🛍️</h2>
+        <p class="subtitle">Sudah selesai</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Battersea Power Station<br>
+          Oxford Street (Selfridges)<br>
+          Makan siang di Oxford Street<br>
+          Covent Garden<br>
+          Makan malam di Soho</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 6: Day 4 - COMPLETED -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 4 ✓</span>
+        <h2>Sabtu, 27 Des 🎡</h2>
+        <p class="subtitle">Sudah selesai</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Portobello Market<br>
+          Camden Market (photo shoot)<br>
+          London Eye</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>⏭️ Dilewati (Tutup)</h3>
+          <p>Shepherd's Bush Market<br>
+          Borough Market</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 7: Day 5 - COMPLETED -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1528795259021-d8c86e14354c?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 5 ✓</span>
+        <h2>Minggu, 28 Des 🏰</h2>
+        <p class="subtitle">Sudah selesai - Windsor & Countryside</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p>Eton Town<br>
+          The Long Walk<br>
+          Windsor Castle (exterior)<br>
+          Windsor Rail Station<br>
+          Windsor Farm Shop<br>
+          Virginia Water<br>
+          Royal Holloway University<br>
+          Rangers Gate</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>⏭️ Dilewati</h3>
+          <p>Savill Garden<br>
+          Air Forces Memorial</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 8: Day 6 - Oxford & Cotswolds - COMPLETED -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1590237083410-fa99e8ab6e83?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 6 ✓</span>
+        <h2>Senin, 29 Des</h2>
+        <p class="subtitle">Sudah selesai</p>
+        
+        <div class="info-card success">
+          <h3>✅ Yang Sudah Dikunjungi</h3>
+          <p><a href="https://oxford-coveredmarket.co.uk" target="_blank">Oxford Covered Market</a><br>
+          <a href="https://www.chch.ox.ac.uk/visit" target="_blank">Christ Church College</a><br>
+          Bodleian Library & Radcliffe Camera<br>
+          <a href="https://www.thevaultsandgarden.com/" target="_blank">The Vaults & Garden</a><br>
+          <a href="https://huffkins.com/pages/burford-cafe-bakery" target="_blank">Burford</a> (High Street, Huffkins)<br>
+          Bibury (Arlington Row)</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>📍 Highlights</h3>
+          <p>🎓 Oxford University<br>
+          🏘️ Cotswolds villages<br>
+          🫖 Traditional English tea</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 9: Day 7 - British Museum + Winter Wonderland -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1568797629192-789acf8e4df3?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge blue">Hari 7</span>
+        <h2>Selasa, 30 Des</h2>
+        <p class="subtitle">British Museum, Winter Wonderland</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 09:00</div>
+          <div class="hotel-time return">🏨 Kembali: ~20:00</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.britishmuseum.org/" target="_blank">British Museum</a> 🏛️</h4>
+            <p>Walk-up queue di Montague Place entrance</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 1 jam dari hotel + parkir NCP Bloomsbury</div>
+        
+        <div class="timeline-item">
+          <span class="time">10:30</span>
+          <div class="timeline-content">
+            <h4>Masuk Museum</h4>
+            <p>Rosetta Stone, Egyptian mummies, Parthenon</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">13:00</span>
+          <div class="timeline-content">
+            <h4>Makan Siang 🍽️</h4>
+            <p>Bloomsbury area</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">15:00</span>
+          <div class="timeline-content">
+            <h4>Drive ke Hyde Park</h4>
+            <p>Parkir Q-Park Park Lane</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 30 menit berkendara</div>
+        
+        <div class="timeline-item">
+          <span class="time red">15:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://hydeparkwinterwonderland.com/" target="_blank">Winter Wonderland</a> 🎄</h4>
+            <p>Festival Natal terbesar! Lebih indah saat gelap</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">~20:00</span>
+          <div class="timeline-content">
+            <h4>Kembali ke Hotel</h4>
+            <p>Istirahat untuk Brighton besok</p>
+          </div>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>🎫 Harus Booking</h3>
+          <p><a href="https://hydeparkwinterwonderland.com/" target="_blank" style="color: white;">Winter Wonderland</a> - tiket online (15:00 atau 16:00 slot)<br>
+          Off-peak = GRATIS, Peak = £5/orang</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>🏛️ British Museum</h3>
+          <p>GRATIS masuk, walk-up di Montague Place<br>
+          Tiket online sold out, tapi walk-up tetap bisa<br>
+          Antri ~30-60 menit</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🅿️ Parkir & Biaya</h3>
+          <p>NCP Bloomsbury: ~£20<br>
+          Q-Park Park Lane: ~£25<br>
+          Congestion Charge: £15<br>
+          <strong>Total: ~£60</strong></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 10: Day 8 - Brighton + NYE -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge gold">Hari 8</span>
+        <h2>Rabu, 31 Des 🎆</h2>
+        <p class="subtitle">Brighton + Malam Tahun Baru</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 08:00</div>
+          <div class="hotel-time return">🏨 Kembali: TBD</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">09:30</span>
+          <div class="timeline-content">
+            <h4>Tiba di Brighton</h4>
+            <p>Parkir di city centre</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 1.5 jam dari hotel</div>
+        
+        <div class="timeline-item">
+          <span class="time">09:45</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.brightonpier.co.uk/" target="_blank">Brighton Beach & Pier</a> 🎡</h4>
+            <p>Pantai, pier, arcade games</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">10:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://brightonmuseums.org.uk/royalpavilion/" target="_blank">Royal Pavilion</a> 👑</h4>
+            <p>Istana Indo-Saracenic Raja George IV</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">12:00</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.visitbrighton.com/shopping/the-lanes" target="_blank">The Lanes</a> 🛍️</h4>
+            <p>Butik, antik, perhiasan, kafe</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">13:00</span>
+          <div class="timeline-content">
+            <h4>Makan Siang 🍽️</h4>
+            <p>Restoran di Brighton</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">14:30</span>
+          <div class="timeline-content">
+            <h4>Berangkat ke London</h4>
+            <p>Atau kembali ke hotel</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 1.5 jam ke London / 1.5 jam ke hotel</div>
+        
+        <div class="info-card warning">
+          <h3>🎆 Malam Tahun Baru</h3>
+          <p><strong>TBD</strong><br>
+          Pilihan: Kembang api di London atau istirahat di hotel</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>👑 Royal Pavilion</h3>
+          <p>Arsitektur Indo-Saracenic yang unik<br>
+          Dibangun untuk Raja George IV<br>
+          Interior mewah bergaya Oriental</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>🅿️ Parkir Brighton</h3>
+          <p>NCP Brighton Centre: ~£15-20<br>
+          The Lanes Car Park: ~£12-15</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 11: Day 9 - Cable Car, Boat, Battersea, Gatwick -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge green">Hari 9</span>
+        <h2>Kamis, 1 Jan 2026 ✈️</h2>
+        <p class="subtitle">Cable Car, Thames Boat, Battersea, ke Gatwick</p>
+        
+        <div class="hotel-times">
+          <div class="hotel-time">🚗 Berangkat: 12:00</div>
+          <div class="hotel-time return">✈️ Gatwick: ~16:30</div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">10:00</span>
+          <div class="timeline-content">
+            <h4>Bangun 😴</h4>
+            <p>Setelah malam NYE</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">11:00</span>
+          <div class="timeline-content">
+            <h4>Sarapan & Pack</h4>
+            <p>Check-out 12:00, koper di mobil</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">12:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.emiratesairline.co.uk/" target="_blank">Emirates Air Line</a> 🚡</h4>
+            <p>Cable car di Greenwich Peninsula</p>
+          </div>
+        </div>
+        <div class="travel-time">🚗 30 menit ke O2</div>
+        
+        <div class="timeline-item">
+          <span class="time">13:00</span>
+          <div class="timeline-content">
+            <h4>Drive ke Greenwich Pier</h4>
+            <p>5 menit dari cable car</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">13:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.thamesclippers.com/" target="_blank">Thames Clipper</a> 🚢</h4>
+            <p>Group naik boat ke Battersea</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">13:30</span>
+          <div class="timeline-content">
+            <h4>Driver Menyusul</h4>
+            <p>Drive mobil ke Battersea (~1 jam)</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">14:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://batterseapowerstation.co.uk/" target="_blank">Battersea Power Station</a> 🏭</h4>
+            <p>Ketemu driver, makan siang</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time red">14:30</span>
+          <div class="timeline-content">
+            <h4><a href="https://www.rfrotiking.com/" target="_blank">Roti King</a> 🍽️</h4>
+            <p>Malaysian halal - Roti Canai, Laksa</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">15:30</span>
+          <div class="timeline-content">
+            <h4>Berangkat ke Gatwick ✈️</h4>
+            <p>~45-60 menit drive</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">~16:30</span>
+          <div class="timeline-content">
+            <h4>Tiba di Gatwick</h4>
+            <p>Buffer ~1.5 jam sebelum 18:00</p>
+          </div>
+        </div>
+        
+        <div class="info-card highlight">
+          <h3>⚠️ PENTING: Gatwick, Bukan Heathrow!</h3>
+          <p>Bandara keberangkatan: <strong>London Gatwick (LGW)</strong><br>
+          Jarak dari Battersea: ~45-60 menit</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🅿️ Parkir & Biaya</h3>
+          <p>O2 car park: ~£8<br>
+          Battersea Power Station: ~£10<br>
+          Thames Clipper: ~£10-12/orang<br>
+          Cable car: ~£5/orang<br>
+          <strong>Total: ~£50 + transport</strong></p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>🚢 Thames Clipper Views</h3>
+          <p>Tower Bridge, London Eye, Parliament<br>
+          Duduk di dalam (hangat!), keluar untuk foto</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 12: Booking List -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge">Penting!</span>
+        <h2>Daftar Booking</h2>
+        <p class="subtitle">Prioritas pemesanan tiket</p>
+        
+        <div class="info-card highlight">
+          <h3>🔴 KRITIS - Booking SEGERA!</h3>
+          <p><strong>1. <a href="https://hydeparkwinterwonderland.com/" target="_blank" style="color: white;">Winter Wonderland</a></strong> - 30 Des 15:00/16:00 slot</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🟡 Prioritas Tinggi</h3>
+          <p><strong>2. <a href="https://brightonmuseums.org.uk/royalpavilion/" target="_blank">Royal Pavilion Brighton</a></strong> - 31 Des (optional)</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>🟢 TBD</h3>
+          <p><strong>NYE Plans</strong> - 31 Des malam (belum diputuskan)</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Tidak Perlu Booking</h3>
+          <p><a href="https://www.britishmuseum.org/" target="_blank">British Museum</a> (walk-up), <a href="https://www.brightonpier.co.uk/" target="_blank">Brighton Pier</a>, <a href="https://www.visitbrighton.com/shopping/the-lanes" target="_blank">The Lanes</a>, <a href="https://www.thamesclippers.com/" target="_blank">Thames Boat</a>, <a href="https://www.emiratesairline.co.uk/" target="_blank">Emirates Cable Car</a>, <a href="https://batterseapowerstation.co.uk/" target="_blank">Battersea Power Station</a></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 13: Tips 1 - Cuaca, Pakaian & Kesehatan -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Tips</span>
+        <h2>Cuaca, Pakaian & Kesehatan</h2>
+        <p class="subtitle">Desember di UK: 0-10°C, hujan & angin</p>
+        
+        <div class="info-card highlight">
+          <h3>🧥 Pakaian WAJIB</h3>
+          <p>Winter coat (wool/puffer), syal, sarung tangan, topi winter<br>
+          Thermal/long john (<a href="https://www.uniqlo.com/uk/" target="_blank">Uniqlo</a>/<a href="https://www.marksandspencer.com/" target="_blank">M&S</a>)<br>
+          Sepatu kedap air & nyaman untuk jalan kaki</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>💊 Obat WAJIB Bawa</h3>
+          <p>Obat bawaan + resep dokter, antibiotik (sulit di UK!)<br>
+          Tolak Angin, Diatabs, Vitamin C & D<br>
+          Minyak angin/kutus-kutus untuk menghangatkan</p>
+        </div>
+        
+        <div class="info-card success">
+          <p>❄️ Hujan & angin sering! Di UK sangat sulit dapat obat resep tanpa dokter lokal.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 14: Tips 2 - Keuangan & Barang Penting -->
+    <div class="swiper-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1553531384-cc64ac80f931?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <span class="day-badge purple">Tips</span>
+        <h2>Keuangan & Barang Penting</h2>
+        <p class="subtitle">UK mostly cashless!</p>
+        
+        <div class="info-card highlight">
+          <h3>💳 Pembayaran & Internet</h3>
+          <p>Kartu kredit/debit (urus ke bank dulu!)<br>
+          Cash pecahan £20 (hindari £50)<br>
+          <a href="https://www.telkomsel.com/en/roaming" target="_blank">Telkomsel</a> roaming ~Rp400rb</p>
+        </div>
+        
+        <div class="info-card">
+          <h3>🔌 Elektronik & Apps</h3>
+          <p>Converter UK (3 pin), kabel extension<br>
+          <a href="https://citymapper.com/" target="_blank">Citymapper</a> (navigasi London), <a href="https://www.uber.com/" target="_blank">Uber</a>, Google Maps</p>
+        </div>
+        
+        <div class="info-card warning">
+          <h3>🌶️ Jangan Lupa!</h3>
+          <p>Sambal/saus ABC (makanan UK hambar!)<br>
+          Alat cebok portable (<a href="https://tokopedia.link/GuKCREr5Arb" target="_blank">tokopedia.link</a>)</p>
+        </div>
+        
+        <div class="info-card success">
+          <h3>✅ Checklist</h3>
+          <p>Paspor & visa | Tiket & konfirmasi hotel | Travel insurance | Kartu bank aktif</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 15: Closing -->
+    <div class="swiper-slide title-slide">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=1200&q=80');"></div>
+      <div class="slide-content">
+        <h1>Sampai Jumpa di London!</h1>
+        <div class="divider"></div>
+        <p class="subtitle">24 Desember 2025 - 1 Januari 2026</p>
+        <p style="font-size: 14px; opacity: 0.8; margin-top: 20px;">21+ Lokasi Ikonik • 9 Hari Petualangan</p>
+        <div class="info-card highlight" style="margin-top: 24px; text-align: center;">
+          <p style="font-size: 16px;"><strong>Jangan lupa booking tiket SEGERA!</strong></p>
+        </div>
+        <p style="font-size: 13px; opacity: 0.6; margin-top: 16px;">Selamat Tahun Baru 2026! 🎆</p>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Day pills navigation - define first so it's available in Swiper callbacks
+  var pills = document.querySelectorAll('.day-pill');
+  
+  // Update active pill based on slide index
+  function updateActivePill(slideIndex) {
+    for (var j = 0; j < pills.length; j++) {
+      pills[j].classList.remove('active');
+      var pillSlide = parseInt(pills[j].getAttribute('data-slide'));
+      if (pillSlide === slideIndex) {
+        pills[j].classList.add('active');
+      }
+    }
+  }
+  
+  // Scroll the active pill into view
+  function scrollPillIntoView(slideIndex) {
+    var activePill = document.querySelector('.day-pill[data-slide="' + slideIndex + '"]');
+    if (activePill) {
+      activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+  
+  // Auto-mark completed days based on current date
+  function updateCompletedDays() {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    for (var k = 0; k < pills.length; k++) {
+      var dateStr = pills[k].getAttribute('data-date');
+      if (dateStr) {
+        var parts = dateStr.split('-');
+        var pillDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        if (pillDate < today) {
+          pills[k].classList.add('completed');
+        } else {
+          pills[k].classList.remove('completed');
+        }
+      }
+    }
+  }
+  
+  // Find today's slide index
+  function getTodaySlideIndex() {
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var monthStr = month < 10 ? '0' + month : '' + month;
+    var dayStr = day < 10 ? '0' + day : '' + day;
+    var todayStr = year + '-' + monthStr + '-' + dayStr;
+    
+    var todayPill = document.querySelector('.day-pill[data-date="' + todayStr + '"]');
+    if (todayPill) {
+      return parseInt(todayPill.getAttribute('data-slide')) || 0;
+    }
+    return 0;
+  }
+  
+  // Mark completed days first
+  updateCompletedDays();
+  
+  var initialSlide = getTodaySlideIndex();
+  
+  // Initialize Swiper
+  var swiper = new Swiper('.swiper', {
+    direction: 'horizontal',
+    loop: false,
+    initialSlide: initialSlide,
+    speed: 300,
+    touchRatio: 1,
+    touchAngle: 45,
+    simulateTouch: true,
+    allowTouchMove: true,
+    followFinger: true,
+    threshold: 5,
+    touchStartPreventDefault: false,
+    touchMoveStopPropagation: false,
+    passiveListeners: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    keyboard: {
+      enabled: true,
+    },
+    grabCursor: true,
+    on: {
+      slideChange: function() {
+        updateActivePill(this.activeIndex);
+        scrollPillIntoView(this.activeIndex);
+      },
+      init: function() {
+        updateActivePill(this.activeIndex);
+        scrollPillIntoView(this.activeIndex);
+      }
+    }
+  });
+  
+  // Click handler for pills
+  for (var i = 0; i < pills.length; i++) {
+    pills[i].addEventListener('click', function(e) {
+      e.preventDefault();
+      var slideIndex = parseInt(this.getAttribute('data-slide'));
+      if (!isNaN(slideIndex) && swiper) {
+        swiper.slideTo(slideIndex);
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>
